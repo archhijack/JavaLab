@@ -59,6 +59,9 @@ public class GarbageCollection extends GarbageCollectedMay
 	  	areaName = "New Hampshire";
 		count++;//incrementing the value of static variable
 		// System.out.println("Bins Reset to: " + count);
+		if(garbage > GarbageLimit){
+			System.out.println("Garbage Overload. Cleanup Immediately.");
+		}
 	}
 	GarbageCollection(int num1, String str)
 	{
@@ -142,9 +145,10 @@ public class GarbageCollection extends GarbageCollectedMay
 
 			System.out.println("------------ Next Area ------------");
 
-			System.out.println("\nEnter Area Name to Clean Up: ");
+			// System.out.println("\nEnter Area Name to Clean Up: ");
 			Scanner sc = new Scanner(System.in);
-			String aName = sc.nextLine();
+			String aName = args[0];
+			System.out.println("\nArea Name to Clean Up: " + aName);
 			System.out.println("\nEnter Bin Number: ");
 			int bno = sc.nextInt();
 			GarbageCollection myobj4 = new GarbageCollection(bno, aName);
