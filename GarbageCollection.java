@@ -63,11 +63,11 @@ public class GarbageCollection extends GarbageCollectedMay
 			System.out.println("Garbage Overload. Cleanup Immediately.");
 		}
 	}
-	GarbageCollection(int num1, String str)
+	GarbageCollection(int num1, StringBuffer str)
 	{
 	  //Parameterized constructor
 	  binNo = num1;
-	  areaName = str;
+	  areaName = str.toString();
 	}
 
 	void printG(String s) //Overloading
@@ -147,7 +147,7 @@ public class GarbageCollection extends GarbageCollectedMay
 
 			// System.out.println("\nEnter Area Name to Clean Up: ");
 			Scanner sc = new Scanner(System.in);
-			String aName = args[0];
+			StringBuffer aName = new StringBuffer(args[0]);
 			System.out.println("\nArea Name to Clean Up: " + aName);
 			System.out.println("\nEnter Bin Number: ");
 			int bno = sc.nextInt();
