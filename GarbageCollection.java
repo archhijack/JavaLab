@@ -5,6 +5,12 @@ class GarbageCollectedMay
 	int garbage = 30;
 }
 
+class InvalidReadException extends Exception{  
+ InvalidReadException(String s){  
+  super(s);  
+ }  
+}  
+
 public class GarbageCollection extends GarbageCollectedMay
 {										//Class
 	private int binNo;			//variables
@@ -49,6 +55,12 @@ public class GarbageCollection extends GarbageCollectedMay
     }
   }
 
+  static void validate(int garbage, int garbageLimit)throws InvalidReadException{
+  		if(garbage > garbageLimit){
+				throw new InvalidReadException("Garbage Overload. Cleanup Immediately.");
+			}
+  }
+
 	GarbageCollection()
 	{
 		//Default constructor
@@ -59,9 +71,17 @@ public class GarbageCollection extends GarbageCollectedMay
 	  	areaName = "New Hampshire";
 		count++;//incrementing the value of static variable
 		// System.out.println("Bins Reset to: " + count);
-		if(garbage > GarbageLimit){
+
+		/*if(garbage > GarbageLimit){
 			System.out.println("Garbage Overload. Cleanup Immediately.");
-		}
+		}*/
+		
+			try{
+				validate(garbage, GarbageLimit);
+			}
+			catch(Exception e){
+				System.out.println(e.toString());
+			}
 	}
 	GarbageCollection(int num1, StringBuffer str)
 	{
@@ -147,13 +167,18 @@ public class GarbageCollection extends GarbageCollectedMay
 
 			// System.out.println("\nEnter Area Name to Clean Up: ");
 			Scanner sc = new Scanner(System.in);
-			StringBuffer aName = new StringBuffer(args[0]);
-			System.out.println("\nArea Name to Clean Up: " + aName);
-			System.out.println("\nEnter Bin Number: ");
-			int bno = sc.nextInt();
-			GarbageCollection myobj4 = new GarbageCollection(bno, aName);
-			System.out.println("Area Name is: "+myobj4.getareaName());
-			System.out.println("Bin Number is: " + myobj4.getbinNo());
+			try{
+				StringBuffer aName = new StringBuffer(args[0]);
+				System.out.println("\nArea Name to Clean Up: " + aName);
+				System.out.println("\nEnter Bin Number: ");
+				int bno = sc.nextInt();
+				GarbageCollection myobj4 = new GarbageCollection(bno, aName);
+				System.out.println("Area Name is: "+myobj4.getareaName());
+				System.out.println("Bin Number is: " + myobj4.getbinNo());
+			}
+			catch (ArrayIndexOutOfBoundsException e){
+				System.out.println(e.toString());
+			}
 
 			System.out.println("------------ Cleanup Complete ------------");
 
