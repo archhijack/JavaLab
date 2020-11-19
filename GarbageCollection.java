@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import collectedGarbage.GarbageCollected;
 
 class GarbageCollectedMay
 {
@@ -9,16 +10,28 @@ class InvalidReadException extends Exception{
  InvalidReadException(String s){  
   super(s);  
  }  
-}  
+}
+
+interface Printer {
+	public void printMessage();
+}
+
+class EnvironmentalMessage extends Thread {
+	public void run(){
+	System.out.println("Save Nature!\n");
+	}
+}
 
 public class GarbageCollection extends GarbageCollectedMay
 {										//Class
 	private int binNo;			//variables
   private String areaName; //change the name accordingly\
 	static int count;//will get memory only once and retain its value
-	private static String msg = "Have A Great Day!\nSave Nature!\n";
+	private static String msg = "Have A Great Day!";
+	GarbageCollected jg = new GarbageCollected();
 	int garbage = super.garbage + 20;
-	final int GarbageLimit = 100; //final variable cannot be changed
+		final int GarbageLimit = 100;
+
 
 	static { //Static block to initialise static variable
 		count = 0;
@@ -42,7 +55,7 @@ public class GarbageCollection extends GarbageCollectedMay
 		int printGarbage(){return 10;}
 	}
 
-	public static class NestedStaticClass
+	public static class NestedStaticClass implements Printer
 	{ //Static Class
     // Only static members of Outer class
     // is directly accessible in nested
@@ -94,13 +107,13 @@ public class GarbageCollection extends GarbageCollectedMay
 	{
 		March m = new March();
 		April a = new April();
-		System.out.println("\nTotal Garbage Collected in March = " + m.printGarbage());
-		System.out.println("Total Garbage Collected in April = " + a.printGarbage());
-		System.out.println("Total Garbage Collected in May = " + super.garbage);	//prints garbage of GarbageCollectedMay class
+		System.out.println("\n"+jg.displayMarch(m.printGarbage()));//"\nTotal Garbage Collected in March = " + m.printGarbage());
+		System.out.println(jg.displayApril(a.printGarbage()));//"Total Garbage Collected in April = " + a.printGarbage());
+		System.out.println(jg.displayMay(super.garbage));//"Total Garbage Collected in May = " + super.garbage);	//prints garbage of GarbageCollectedMay class
 	}
 
 	void printG(){
-		System.out.println("Total Garbage Collected in June = " + garbage);//prints garbage of GarbageCollection class
+		System.out.println(jg.displayJune(garbage));//prints garbage of GarbageCollection class
 	}
 
   //Getter and setter methods
@@ -136,6 +149,7 @@ public class GarbageCollection extends GarbageCollectedMay
 
 	public void Bin(boolean stat, int num)
 	{				 			//Member Function, Access Specifier
+		try{
 		System.out.print("Bin "+num+" ");
     	if(stat==true)
 			{													//Data Member, Control Statement
@@ -144,12 +158,19 @@ public class GarbageCollection extends GarbageCollectedMay
     	else
     		System.out.print("is empty.");
     	System.out.println();
+    }
+    catch (Exception e){
+    	System.out.println(e.toString());
+    }
   }
 
   public static void main(String[] args)
 	{		 					//Main
+		EnvironmentalMessage en = new EnvironmentalMessage();
   		boolean[] binStat = {true, false, false, true, false};			//Array
     	GarbageCollection bins = new GarbageCollection();				//Object of class to call non-static function
+    	GarbageCollection thread = new GarbageCollection();
+    	// thread.start();
     	for(int i=0; i<binStat.length; i++)
 			{							//Loop
     		bins.Bin(binStat[i], i+1);									//Calling Function
@@ -221,5 +242,6 @@ public class GarbageCollection extends GarbageCollectedMay
 			// System.out.println("Garbage Collected in March: "+g.printGarbage()+" kg");
 			// g= new April();
 			// System.out.println("Garbage Collected in April: "+g.printGarbage()+" kg");
+      	en.start();
   }
 }
